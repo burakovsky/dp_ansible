@@ -1,0 +1,5 @@
+---
+# vars file for elasticsearch
+
+repo_url: https://artifacts.elastic.co/packages/{{ elk_stack_version }}.x/yum
+beats_dashboard_url: https://download.elastic.co/beats/dashboards/beats-dashboards-1.1.2.zip

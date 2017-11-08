@@ -1,0 +1,12 @@
+---
+# tasks file for add_vhost
+
+- name: CREATE VIRTUAL HOST FILE FOR REVERSE PROXY
+  template:
+    src: vhost_conf.j2
+    dest: /etc/httpd/conf.d/{{ service_name }}.conf
+  delegate_to: "{{ item }}"
+  with_items: 
+  - "{{  groups['proxy_servers'] }}"
+  notify: RESTART HTTPD
+

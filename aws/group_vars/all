@@ -1,0 +1,6 @@
+---
+# file: group_vars/all
+
+aws_region: us-east-1
+domain: burakovsky.com
+ssl_certificate_name: logstash-forwarder

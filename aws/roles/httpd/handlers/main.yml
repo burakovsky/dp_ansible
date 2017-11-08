@@ -1,0 +1,10 @@
+---
+# handlers file for httpd
+
+- name: RESTART HTTPD
+  service:
+    name: httpd
+    state: restarted
+  delegate_to: "{{ item }}"
+  with_items:
+  - "{{  groups['proxy_servers'] }}"

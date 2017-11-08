@@ -1,0 +1,29 @@
+---
+# tasks file for filebeat
+
+- name: INSTALL FILEBEAT
+  yum:
+    name: {{ filebeat_url }}
+    state: present
+
+- name: CREATE FOLDER FOR SSL CERTIFICATE
+  file:
+    path: /etc/pki/tls/certs
+    state: directory
+
+- name: COPY SSL CERTFICATE FROM LOCAL MACHINE
+  copy:
+    src: {{ ssl_certificate_name }}.crt
+    dest: /etc/pki/tls/certs
+
+- name: CHANGE FILEBEAT CONFIG
+  copy:
+    src: filebeat.yml
+    dest: /etc/filebeat/filebeat.yml
+ 
+- name: START FILEBEAT SERVICE
+  service: 
+    name: filebeat
+    state: started
+    enabled: yes
+    

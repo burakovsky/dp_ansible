@@ -1,0 +1,14 @@
+---
+# tasks file for jenkins-server
+
+- name: Install jenkins server
+  yum:
+    name: "{{jenkins_download_url}}"
+    state: present
+
+- name: Start jenkins server
+  service:
+    name: jenkins
+    enabled: yes
+    state: started
+

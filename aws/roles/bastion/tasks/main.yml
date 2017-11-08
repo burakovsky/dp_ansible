@@ -1,0 +1,56 @@
+---
+# tasks file for ec2_facts
+
+- name: GATHER FACTS ABOUT EC2 INSTANCES
+  ec2_remote_facts:
+    aws_access_key: "{{ ec2_access_key }}"
+    aws_secret_key: "{{ ec2_secret_key }}"
+    region: "{{ aws_region }}"
+  register: ec2
+
+- name: CREATE SSH.CFG FOR CONNECTING THROUGH BASTION INSTANCE
+  template:
+    src: ssh_config.j2
+    dest: ./ssh.cfg
+  vars:
+    bastion_public_ip_address: "{{ item.public_ip_address }}"
+  with_items: "{{ ec2.instances }}"
+  when: 
+  - item.tags.Name.find('bastion')!= -1
+  - item.state == "running"
+
+- name: ADD WEB SERVER INSTANCES TO WEB_SERVERS GROUP
+  add_host:
+    hostname: "{{ item.private_ip_address }}"
+    groupname: web_servers
+  with_items: "{{ ec2.instances }}"
+  when:
+  - item.tags.Name.find('web')!= -1
+  - item.state == "running"
+
+- name: ADD ELK SERVER INSTANCES TO ELK_SERVERS GROUP
+  add_host:
+    hostname: "{{ item.private_ip_address }}"
+    groupname: elk_servers
+  with_items: "{{ ec2.instances }}"
+  when:
+  - item.tags.Name.find('elk')!= -1
+  - item.state == "running"
+
+- name: ADD PROXY SERVER INSTANCES TO PROXY_SERVERS GROUP
+  add_host:
+    hostname: "{{ item.private_ip_address }}"
+    groupname: proxy_servers
+  with_items: "{{ ec2.instances }}"
+  when:
+  - item.tags.Name.find('httpd-proxy')!= -1
+  - item.state == "running"
+
+- name: ADD JENKINS SERVER INSTANCES TO JENKINS_SERVERS GROUP
+  add_host:
+    hostname: "{{ item.private_ip_address }}"
+    groupname: jenkins_servers
+  with_items: "{{ ec2.instances }}"
+  when:
+  - item.tags.Name.find('jenkins')!= -1
+  - item.state == "running"

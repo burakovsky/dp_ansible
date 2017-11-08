@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+    ServerName {{ service_name }}.{{ domain }}
+
+    ProxyPreserveHost On
+
+    ProxyPass / http://{{ ansible_eth0.ipv4.address }}:{{ service_port }}/
+    ProxyPassReverse / http://{{ ansible_eth0.ipv4.address }}:{{ service_port }}/
+</VirtualHost>

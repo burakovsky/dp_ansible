@@ -1,0 +1,4 @@
+---
+# defaults file for filebeat
+
+filebeat_url: https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.5.1-x86_64.rpm

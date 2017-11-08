@@ -1,0 +1,4 @@
+---
+# vars file for jenkins-server
+
+jenkins_download_url: https://pkg.jenkins.io/redhat-stable/jenkins-{{jenkins_version}}-1.1.noarch.rpm

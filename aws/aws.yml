@@ -1,0 +1,43 @@
+- name: GATHERING FACTS ABOUT EC2-INSTANCES
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+
+  vars_files:
+  - credentials.vault
+
+  roles:
+  - { role: bastion }
+
+- name: CONFIGURE PROXY SERVERS
+  hosts: proxy_servers
+  become: true
+  roles:
+  - { role: httpd }
+
+- name: CONFIGURE ELK SERVER
+  hosts: elk_servers
+  become: true
+  roles:
+  - { role: java }
+  - { role: elk }
+  - { role: add_vhost , service_name: 'elk', service_port: 8080}
+
+- name: CONFIGURE JENKINS SERVER
+  hosts: jenkins_servers
+  become: true
+  roles:
+  - { role: java }
+  - { role: jenkins }
+  - { role: add_vhost , service_name: 'jenkins', service_port: 8080}
+
+- name: CONFIGURE WEB SERVERS
+  hosts: web_servers
+  become: true
+  roles:
+  - { role: java }
+  - { role: tomcat }
+  - { role: filebeat }
+
+
+ 

@@ -1,0 +1,13 @@
+---
+# defaults file for elasticsearch
+
+elk_stack_version: 5
+gpgkey_url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+elk_services:
+  - elasticsearch
+  - kibana
+  - logstash
+
+path_to_kibana_dashboards: /opt
+beats_dashboard_name: beats-dashboards-1.1.2

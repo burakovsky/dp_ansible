@@ -1,0 +1,4 @@
+---
+# handlers file for add_vhost
+
+- include: ../../httpd/handlers/main.yml
